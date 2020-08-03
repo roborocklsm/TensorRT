@@ -48,6 +48,7 @@ using namespace nvinfer1::plugin;
 #include "reorgPlugin.h"
 #include "resizeNearestPlugin.h"
 #include "specialSlicePlugin.h"
+#include "customNMSPlugin.h"
 
 using nvinfer1::plugin::RPROIParams;
 
@@ -179,6 +180,7 @@ bool initLibNvInferPlugins(void* logger, const char* libNamespace)
     initializePlugin<nvinfer1::plugin::ResizeNearestPluginCreator>(logger, libNamespace);
     initializePlugin<nvinfer1::plugin::RPROIPluginCreator>(logger, libNamespace);
     initializePlugin<nvinfer1::plugin::SpecialSlicePluginCreator>(logger, libNamespace);
+    initializePlugin<nvinfer1::plugin::CustomNMSPluginCreator>(logger, libNamespace);
     return true;
 }
 } // extern "C"

@@ -38,6 +38,11 @@ pluginStatus_t allClassNMS(cudaStream_t stream, int num, int num_classes, int nu
     void* beforeNMS_scores, void* beforeNMS_index_array, void* afterNMS_scores, void* afterNMS_index_array,
     bool flipXY = false);
 
+pluginStatus_t customAllClassNMS(cudaStream_t stream, int num, int num_classes, int num_preds_per_class, int boxDims, int top_k,
+    float nms_threshold, bool share_location, bool isNormalized, DataType DT_SCORE, DataType DT_BBOX, void* bbox_data,
+    void* beforeNMS_scores, void* beforeNMS_index_array, void* afterNMS_scores, void* afterNMS_index_array,
+    bool flipXY = false);
+
 pluginStatus_t detectionInference(cudaStream_t stream, int N, int C1, int C2, bool shareLocation,
     bool varianceEncodedInTarget, int backgroundLabelId, int numPredsPerClass, int numClasses, int topK, int keepTopK,
     float confidenceThreshold, float nmsThreshold, CodeTypeSSD codeType, DataType DT_BBOX, const void* locData,
@@ -48,6 +53,12 @@ pluginStatus_t detectionInference(cudaStream_t stream, int N, int C1, int C2, bo
 
 pluginStatus_t nmsInference(cudaStream_t stream, int N, int boxesSize, int scoresSize, bool shareLocation,
     int backgroundLabelId, int numPredsPerClass, int numClasses, int topK, int keepTopK, float scoreThreshold,
+    float iouThreshold, DataType DT_BBOX, const void* locData, DataType DT_SCORE, const void* confData, void* keepCount,
+    void* nmsedBoxes, void* nmsedScores, void* nmsedClasses, void* workspace, bool isNormalized = true,
+    bool confSigmoid = false, bool clipBoxes = true);
+
+pluginStatus_t nmsInference(cudaStream_t stream, int N, int boxesSize, int scoresSize, bool shareLocation,
+    int backgroundLabelId, int numPredsPerClass, int numClasses, int boxDims, int topK, int keepTopK, float scoreThreshold,
     float iouThreshold, DataType DT_BBOX, const void* locData, DataType DT_SCORE, const void* confData, void* keepCount,
     void* nmsedBoxes, void* nmsedScores, void* nmsedClasses, void* workspace, bool isNormalized = true,
     bool confSigmoid = false, bool clipBoxes = true);

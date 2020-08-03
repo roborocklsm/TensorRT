@@ -248,6 +248,17 @@ struct NMSParameters
     bool isNormalized;
 };
 
+//! \param BoxDims Number of box binding dims in the network.
+
+struct CustomNMSParameters
+{
+    bool shareLocation;
+    int backgroundLabelId, numClasses, boxDims, topK, keepTopK;
+    float scoreThreshold, iouThreshold;
+    bool isNormalized;
+};
+
+
 } // end plugin namespace
 } // end nvinfer1 namespace
 #endif
