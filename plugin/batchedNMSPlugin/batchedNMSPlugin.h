@@ -28,7 +28,7 @@ namespace nvinfer1
 namespace plugin
 {
 
-class BatchedNMSPlugin : public IPluginV2DynamicExt
+class BatchedNMSPlugin : public IPluginV2Ext
 {
 public:
     BatchedNMSPlugin(NMSParameters param);
@@ -39,27 +39,26 @@ public:
 
     int getNbOutputs() const override;
 
-    DimsExprs getOutputDimensions(
-        int outputIndex, const DimsExprs* inputs, int nbInputs, IExprBuilder& exprBuilder) override;
+    Dims getOutputDimensions(int index, const Dims* inputs, int nbInputDims) override;
 
     int initialize() override;
 
     void terminate() override;
 
-    size_t getWorkspaceSize(
-        const PluginTensorDesc* inputs, int nbInputs, const PluginTensorDesc* outputs, int nbOutputs) const override;
+    size_t getWorkspaceSize(int maxBatchSize) const override;
 
-    int enqueue(const PluginTensorDesc* inputDesc, const PluginTensorDesc* outputDesc, const void* const* inputs,
-        void* const* outputs, void* workspace, cudaStream_t stream) override;
+    int enqueue(
+        int batchSize, const void* const* inputs, void** outputs, void* workspace, cudaStream_t stream) override;
 
     size_t getSerializationSize() const override;
 
     void serialize(void* buffer) const override;
 
-    void configurePlugin(
-        const DynamicPluginTensorDesc* in, int nbInputs, const DynamicPluginTensorDesc* out, int nbOutputs) override;
+    void configurePlugin(const Dims* inputDims, int nbInputs, const Dims* outputDims, int nbOutputs,
+        const DataType* inputTypes, const DataType* outputTypes, const bool* inputIsBroadcast,
+        const bool* outputIsBroadcast, PluginFormat floatFormat, int maxBatchSize) override;
 
-    bool supportsFormatCombination(int pos, const PluginTensorDesc* inOut, int nbInputs, int nbOutputs) override;
+    bool supportsFormat(DataType type, PluginFormat format) const override;
 
     const char* getPluginType() const override;
 
@@ -67,13 +66,17 @@ public:
 
     void destroy() override;
 
-    IPluginV2DynamicExt* clone() const override;
+    IPluginV2Ext* clone() const override;
 
     nvinfer1::DataType getOutputDataType(int index, const nvinfer1::DataType* inputType, int nbInputs) const override;
 
     void setPluginNamespace(const char* libNamespace) override;
 
     const char* getPluginNamespace() const override;
+
+    bool isOutputBroadcastAcrossBatch(int outputIndex, const bool* inputIsBroadcasted, int nbInputs) const override;
+
+    bool canBroadcastInputAcrossBatch(int inputIndex) const override;
 
     void setClipParam(bool clip);
 
@@ -99,9 +102,9 @@ public:
 
     const PluginFieldCollection* getFieldNames() override;
 
-    IPluginV2DynamicExt* createPlugin(const char* name, const PluginFieldCollection* fc) override;
+    IPluginV2Ext* createPlugin(const char* name, const PluginFieldCollection* fc) override;
 
-    IPluginV2DynamicExt* deserializePlugin(const char* name, const void* serialData, size_t serialLength) override;
+    IPluginV2Ext* deserializePlugin(const char* name, const void* serialData, size_t serialLength) override;
 
 private:
     static PluginFieldCollection mFC;
