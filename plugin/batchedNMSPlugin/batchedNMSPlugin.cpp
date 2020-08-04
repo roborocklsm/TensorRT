@@ -53,7 +53,8 @@ BatchedNMSPlugin::BatchedNMSPlugin(const void* data, size_t length)
 
 int BatchedNMSPlugin::getNbOutputs() const
 {
-    return 4;
+    // return 4;
+    return 5;
 }
 
 int BatchedNMSPlugin::initialize()
@@ -108,11 +109,12 @@ int BatchedNMSPlugin::enqueue(
     void* nmsedBoxes = outputs[1];
     void* nmsedScores = outputs[2];
     void* nmsedClasses = outputs[3];
+    void* nmsedIdx = outputs[4];
 
     pluginStatus_t status = nmsInference(stream, batchSize, boxesSize, scoresSize, param.shareLocation,
         param.backgroundLabelId, numPriors, param.numClasses, param.topK, param.keepTopK, param.scoreThreshold,
         param.iouThreshold, DataType::kFLOAT, locData, DataType::kFLOAT, confData, keepCount, nmsedBoxes, nmsedScores,
-        nmsedClasses, workspace, param.isNormalized, false, mClipBoxes);
+        nmsedClasses, nmsedIdx, workspace, param.isNormalized, false, mClipBoxes);
     ASSERT(status == STATUS_SUCCESS);
     return 0;
 }
@@ -139,7 +141,7 @@ void BatchedNMSPlugin::configurePlugin(const Dims* inputDims, int nbInputs, cons
     const bool* outputIsBroadcast, nvinfer1::PluginFormat format, int maxBatchSize)
 {
     ASSERT(nbInputs == 2);
-    ASSERT(nbOutputs == 4);
+    ASSERT(nbOutputs == 5);
     ASSERT(inputDims[0].nbDims == 3);
     ASSERT(inputDims[1].nbDims == 2 || (inputDims[1].nbDims == 3 && inputDims[1].d[2] == 1));
     ASSERT(std::none_of(inputIsBroadcast, inputIsBroadcast + nbInputs, [](bool b) { return b; }));
