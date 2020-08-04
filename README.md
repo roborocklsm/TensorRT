@@ -69,14 +69,14 @@ NOTE: Along with the TensorRT OSS components, the following source packages will
 
 ## Brief Introduction
 
-This repo is based on TensorRT7, tag:20_07, commit head 650d4b655d1b30b39e476f9317445d680f023fbb.
+This repo is based on TensorRT7, tag:20_07, commit head `650d4b655d1b30b39e476f9317445d680f023fbb`.
 
 We rewrite the batchedNMSPlugin operation. The nmsIdx is added to 
 
 ## Downloading The TensorRT Components And Build It On Jetson Machine
 1. #### Download TensorRT OSS sources.
 	```bash
-	git clone -b master https://github.com/nvidia/TensorRT TensorRT
+	git clone -b tag_20_07 https://github.com/roborocklsm/TensorRT.git TensorRT
 	cd TensorRT
 	git submodule update --init --recursive
 	```
@@ -89,7 +89,7 @@ We rewrite the batchedNMSPlugin operation. The nmsIdx is added to
 	sh build_jetson.sh
 	```
 
-p.s. You may need to update your cmake since the pre-installed version is 3.10 and this repo requires >=3.15.
+p.s. You may need to update your cmake since the pre-installed version is 3.10 and this repo requires >=3.13.
 
 ## Downloading The TensorRT Components And Build It On PC.
 You could follow the steps introduced in the [original TensorRT github page](https://github.com/NVIDIA/TensorRT).
