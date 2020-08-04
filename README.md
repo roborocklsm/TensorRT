@@ -68,9 +68,10 @@ NOTE: Along with the TensorRT OSS components, the following source packages will
 - [Protobuf](https://github.com/protocolbuffers/protobuf.git) v3.8.x
 
 ## Brief Introduction
-	This repo is based on TensorRT7, tag:20_07, commit head 650d4b655d1b30b39e476f9317445d680f023fbb.
 
-	We rewrite the batchedNMSPlugin operation. The nmsIdx is added to 
+This repo is based on TensorRT7, tag:20_07, commit head 650d4b655d1b30b39e476f9317445d680f023fbb.
+
+We rewrite the batchedNMSPlugin operation. The nmsIdx is added to 
 
 ## Downloading The TensorRT Components And Build It On Jetson Machine
 1. #### Download TensorRT OSS sources.
@@ -91,7 +92,7 @@ NOTE: Along with the TensorRT OSS components, the following source packages will
 p.s. You may need to update your cmake since the pre-installed version is 3.10 and this repo requires >=3.15.
 
 ## Downloading The TensorRT Components And Build It On PC.
-	You could follow the steps introduced in the [original TensorRT github page](https://github.com/NVIDIA/TensorRT).
+You could follow the steps introduced in the [original TensorRT github page](https://github.com/NVIDIA/TensorRT).
 
 ## Useful Resources
 
