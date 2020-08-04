@@ -46,6 +46,9 @@ A `[batch_size, keepTopK]` float32 tensor containing the scores for the boxes.
 - `nmsed_classes`
 A `[batch_size, keepTopK]` float32 tensor containing the classes for the boxes.
 
+- `nmsed_idx`
+A `[batch_size, keepTopK]` float32 tensor containing the classes for the boxes.
+
 
 ## Parameters
 
