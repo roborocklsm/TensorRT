@@ -84,9 +84,20 @@ We rewrite the batchedNMSPlugin operation. The nmsIdx is added to
 2. #### Download the TensorRT binary release.
 	Since the Jetson Machine is host by Nvdia SDK Manager, the TensorRT binary release is already installed on it. The library directory is usually `/usr/lib/aarch64-linux-gnu/`.
 
-3. #### Use `build_jeton.sh` build TensorRT OSS sources and copy it into your library automatically.
+3. #### Build TensorRT OSS sources and copy it into your library.
 	```
-	sh build_jetson.sh
+	export TRT_SOURCE='pwd'
+	export TRT_RELEASE=/usr/lib/aarch64-linux-gnu/
+	mkdir build 
+	cd build
+	sudo cmake .. -DTRT_LIB_DIR=$TRT_RELEASE -DTRT_OUT_DIR=`pwd`/out -DTRT_PLATFORM_ID=aarch64 -DCUDA_VERSION=10.2 -DCMAKE_C_COMPILER=/usr/bin/gcc
+	make -j$(nproc)
+	sudo rm -f /usr/lib/aarch64-linux-gnu/libnvinfer_plugin.so
+	sudo rm -f /usr/lib/aarch64-linux-gnu/libnvinfer_plugin.so.7
+	sudo cp ./out/libnvinfer_plugin.so.7.1.3 /usr/lib/aarch64-linux-gnu/libnvinfer_plugin.so.7.1.3
+	sudo cp ./out/libnvinfer_plugin_static.a /usr/lib/aarch64-linux-gnu/libnvinfer_plugin_static.a
+	sudo ln -s /usr/lib/aarch64-linux-gnu/libnvinfer_plugin.so.7.1.3 /usr/lib/aarch64-linux-gnu/libnvinfer_plugin.so
+	sudo ln -s /usr/lib/aarch64-linux-gnu/libnvinfer_plugin.so.7.1.3 /usr/lib/aarch64-linux-gnu/libnvinfer_plugin.so.7
 	```
 
 p.s. You may need to update your cmake since the pre-installed version is 3.10 and this repo requires >=3.13.
